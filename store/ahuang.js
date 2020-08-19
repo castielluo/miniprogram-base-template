@@ -18,24 +18,27 @@ const _init = (options) => {
     let vm = this
     // 先判断是否已被响应式处理
     if(!_isObr(store)) {
-      // 如果没有响应式 将未响应处理的数据挂在_preOb上
-      // debugger
-      store._preOb = JSON.parse(JSON.stringify(store.storeView))
+      // 如果没有响应式 将未响应处理的数据挂在_noOb上
+      store._noObView = JSON.parse(JSON.stringify(store.storeView))
+      store._noObModel = JSON.parse(JSON.stringify(store.storeModel))
       // 挂载 storeView会在页面展示 修改需调用setdata
-      options.data.storeView = JSON.parse(JSON.stringify(store._preOb))
-      options.data.storeModel = JSON.parse(JSON.stringify(store.storeModel))
+      options.data.storeView = JSON.parse(JSON.stringify(store._noObView))
+      options.data.storeModel = JSON.parse(JSON.stringify(store._noObModel))
       // 响应式处理
-      observer(store.storeView)
+      observer(store.storeView, 'storeView')
+      observer(store.storeModel, 'storeModel')
     } else {
-      options.data.storeView = Object.assign({}, store._preOb)
+      options.data.storeView = Object.assign({}, store._noObView)
       options.data.storeModel = Object.assign({}, store.storeModel)
     }
+
     
     vm.store = store
     // onload时将实例插入队列
     store.routeToVm[vm.route] || (store.routeToVm[vm.route] = [])
+    // *** 需检查栈里两个同样页面时 vm重复还是怎样
     store.routeToVm[vm.route].push(vm)
-    // setdata
+    // setdata *** 需检查再次进入页面是否重设 如是 则不必在set里遍历
     vm.setData(options.data)
     // 调用传入的onload
     user_onLoad && user_onLoad.call(this, e)
@@ -46,16 +49,16 @@ const _init = (options) => {
 
 // 是否拥有_ob
 const _isObr = (data) => {
-  return data.hasOwnProperty('_preOb')
+  return data.hasOwnProperty('_noObView')
 }
 
 // 响应式处理
-const observer = (data) => {
-  _walk(data)
+const observer = (data, type) => {
+  _walk(data, type)
 }
 
 // 递归遍历
-const _walk = (data, path = 'storeView') => {
+const _walk = (data, path) => {
   Object.keys(data).forEach(item => {
     if (Object.prototype.toString.call(data[item]) === '[object Array]') {
       // 是数组 重写原型方法
@@ -74,32 +77,55 @@ const _defineReactive = (data, key, path, val) => {
       return val
     },
     set: function (value) {
+      /* if (typeof value === 'object' && Object.prototype.toString.call(value) !== '[object Array]') {
+        value = JSON.parse(JSON.stringify(value))
+      } */
+      console.log(value)
       // 更改并遍历store.routeToVm
-      // 除了当前路由 其他页面的setdata分别插入他们的onshow里执行 防止性能开销过大
-      // ***
-      // console.log(key, value, val === value)
-      if (val === value) return
-      // 设置store.view
+      console.log(key, value, val, JSON.stringify(val) === JSON.stringify(value))
+      // *** 检查字符串和数组情况
+      if (JSON.stringify(val) === JSON.stringify(value)) return
+      // 设置store.storeView或store.storeModel
       val = value
-      // 设置preOb
-      let preOb = store._preOb
+
+      // 设置store类型
+      let type = path.startsWith('storeView')
+
+      // 设置noOb
+      let noObView = store._noObView
+      let noObModel = store._noObModel
+
       path.split('.').forEach((item, index) => {
         if (index > 0) {
-          preOb = preOb[item]
+          type ? noObView = noObView[item] : noObModel = noObModel[item]
         }
       })
-      preOb[key] = value
+      type ? noObView[key] = JSON.parse(JSON.stringify(value)) : noObModel[key] = JSON.parse(JSON.stringify(value))
+
+      // 重新设置的对象需要响应式处理
+      if (typeof value === 'object' && Object.prototype.toString.call(value) !== '[object Array]') {
+        _walk(val)
+      }
 
       Object.keys(store.routeToVm).forEach(item => {
+        // 除了当前路由 其他页面的setdata分别插入他们的onshow里执行 防止性能开销过大
+        // ***
         store.routeToVm[item].forEach(vm => {
           // 更深层的路径要walk里找到
           let dataSign = `${path}.${key}`
-          console.log(dataSign, value, vm)
-          // 重新设置的对象需要响应式处理
-          // ***
-          vm.setData({
-            [dataSign]: value
-          })
+          console.log(dataSign, value, vm, path)
+          if (type) {
+            vm.setData({
+              [dataSign]: JSON.parse(JSON.stringify(value))
+            })
+          } else {
+            let modelPath = vm.data
+            path.split('.').forEach(item => {
+                modelPath = modelPath[item]
+            })
+            modelPath[key] = JSON.parse(JSON.stringify(value))
+          }
+          
         })
       })
       // 自定义watcher通知
@@ -121,5 +147,11 @@ const _on = () => {}
 const _emit = () => {}
 
 // 非pro环境打印日志
+const _log = () => {}
+
+// 挂载静态方法
+ahuang.on = _on
+ahuang.emit = _emit
+ahuang.log = _log
 
 export default ahuang

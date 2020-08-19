@@ -18,15 +18,16 @@ ahuang({
     })
   },
   onLoad: function () {
-    setTimeout(() => {
-      this.store.storeView.userInfo.name = 'dsfdsafdsafsdafsdaf'
-    }, 2000);
 
     setTimeout(() => {
+      this.store.storeModel.userInfo.name = 'df'
+      console.log(this.store)
+    }, 500);
+    setTimeout(() => {
+      this.store.storeModel.userInfo.name = 'df'
       console.log(this.store)
       console.log(this.data)
-      this.store.storeView.userInfo.name = 'ababababab'
-    }, 4000);
+    }, 1000);
 
     console.log(this)
     api.user.userInfo({
