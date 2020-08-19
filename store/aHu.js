@@ -1,7 +1,7 @@
 import store from './store'
 
 
-const ahuang = (options) => {
+const aHu = (options) => {
   _init(options)
   handError()
   initPlugin()
@@ -29,16 +29,14 @@ const _init = (options) => {
       observer(store.storeModel, 'storeModel')
     } else {
       options.data.storeView = Object.assign({}, store._noObView)
-      options.data.storeModel = Object.assign({}, store.storeModel)
+      options.data.storeModel = Object.assign({}, store._noObModel)
     }
-
-    
     vm.store = store
     // onload时将实例插入队列
     store.routeToVm[vm.route] || (store.routeToVm[vm.route] = [])
-    // *** 需检查栈里两个同样页面时 vm重复还是怎样
+    // 栈里两个同样页面不同vm时 __wxExparserNodeId__不同
     store.routeToVm[vm.route].push(vm)
-    // setdata *** 需检查再次进入页面是否重设 如是 则不必在set里遍历
+    // setdata
     vm.setData(options.data)
     // 调用传入的onload
     user_onLoad && user_onLoad.call(this, e)
@@ -73,17 +71,11 @@ const _walk = (data, path) => {
 const _defineReactive = (data, key, path, val) => {
   Object.defineProperty(data, key, {
     get: function() {
-      // console.log(key, path)
       return val
     },
     set: function (value) {
-      /* if (typeof value === 'object' && Object.prototype.toString.call(value) !== '[object Array]') {
-        value = JSON.parse(JSON.stringify(value))
-      } */
-      console.log(value)
       // 更改并遍历store.routeToVm
-      console.log(key, value, val, JSON.stringify(val) === JSON.stringify(value))
-      // *** 检查字符串和数组情况
+      // console.log(key, value, val, JSON.stringify(val) === JSON.stringify(value))
       if (JSON.stringify(val) === JSON.stringify(value)) return
       // 设置store.storeView或store.storeModel
       val = value
@@ -110,10 +102,10 @@ const _defineReactive = (data, key, path, val) => {
       Object.keys(store.routeToVm).forEach(item => {
         // 除了当前路由 其他页面的setdata分别插入他们的onshow里执行 防止性能开销过大
         // ***
+        // *** 重复的页面不同的vm单实例设置是否可以影响同页面不同实例
         store.routeToVm[item].forEach(vm => {
           // 更深层的路径要walk里找到
           let dataSign = `${path}.${key}`
-          console.log(dataSign, value, vm, path)
           if (type) {
             vm.setData({
               [dataSign]: JSON.parse(JSON.stringify(value))
@@ -125,10 +117,10 @@ const _defineReactive = (data, key, path, val) => {
             })
             modelPath[key] = JSON.parse(JSON.stringify(value))
           }
-          
         })
       })
-      // 自定义watcher通知
+      _log(`${path}.${key}`, val, value)
+      // *** 自定义watcher通知computed属性
     }
   })
 }
@@ -141,17 +133,27 @@ const initPlugin = () => {}
 // 指令
 
 // 注册事件
-const _on = () => {}
+const _on = (EVENT, fn) => {
+  if(!aHu.sub) aHu.sub = {}
+  aHu.sub[EVENT] ? aHu.sub[EVENT] = [fn] : aHu.sub[EVENT].push(fn)
+}
 
 // 触发事件
-const _emit = () => {}
+const _emit = (EVENT, payload) => {
+  if(aHu.sub[EVENT]) {
+    while (aHu.sub[EVENT].length) {
+      aHu.sub[EVENT].pop().call(store, payload)
+    }
+  }
+}
 
 // 非pro环境打印日志
-const _log = () => {}
+const _log = (path, oldValue, value) => {
+  console.log(`aHu日志：修改属性${path}，由${oldValue}改为${value}`)
+}
 
 // 挂载静态方法
-ahuang.on = _on
-ahuang.emit = _emit
-ahuang.log = _log
+aHu.on = _on
+aHu.emit = _emit
 
-export default ahuang
+export default aHu

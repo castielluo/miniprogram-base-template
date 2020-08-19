@@ -17,26 +17,19 @@ aHu({
       url: '../logs/logs'
     })
   },
-  chageit () {
-    console.log(this.store.routeToVm)
+  toindex: function () {
+    wx.navigateTo({
+      url: '/pages/test/index',
+    })
   },
+
   onLoad: function () {
-
-    setTimeout(() => {
-      this.store.storeModel.userInfo.name = 'df'
-    }, 500);
-
-    setTimeout(() => {
-      wx.navigateTo({
-        url: '/pages/test1/index',
-      })
-    }, 5000);
-
     api.user.userInfo({
       data: {
         name: 'lzx'
       },
       success: (res) => {
+        
       }
     })
     if (app.globalData.userInfo) {
