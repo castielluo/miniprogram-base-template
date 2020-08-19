@@ -1,6 +1,10 @@
 //app.js
+import initMutation from './store/mutation'
+
 App({
   onLaunch: function () {
+    // 初始化注册的mutation
+    initMutation()
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())

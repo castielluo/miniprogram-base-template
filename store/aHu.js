@@ -75,7 +75,6 @@ const _defineReactive = (data, key, path, val) => {
     },
     set: function (value) {
       // 更改并遍历store.routeToVm
-      // console.log(key, value, val, JSON.stringify(val) === JSON.stringify(value))
       if (JSON.stringify(val) === JSON.stringify(value)) return
       // 设置store.storeView或store.storeModel
       val = value
@@ -135,14 +134,18 @@ const initPlugin = () => {}
 // 注册事件
 const _on = (EVENT, fn) => {
   if(!aHu.sub) aHu.sub = {}
-  aHu.sub[EVENT] ? aHu.sub[EVENT] = [fn] : aHu.sub[EVENT].push(fn)
+  if(aHu.hasOwnProperty(EVENT)) {
+    aHu.sub[EVENT].push(fn)
+  } else {
+    aHu.sub[EVENT] = [fn]
+  }
 }
 
 // 触发事件
 const _emit = (EVENT, payload) => {
   if(aHu.sub[EVENT]) {
     while (aHu.sub[EVENT].length) {
-      aHu.sub[EVENT].pop().call(store, payload)
+      aHu.sub[EVENT].shift().call(store, payload)
     }
   }
 }

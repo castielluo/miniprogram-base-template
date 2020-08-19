@@ -18,7 +18,8 @@ aHu({
     })
   },
   chageit () {
-    console.log(this.store.routeToVm)
+    aHu.emit('UPDATE_NAME', '真正设置成功')
+    console.log(this.store)
   },
   onLoad: function () {
 
