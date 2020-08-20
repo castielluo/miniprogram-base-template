@@ -8,6 +8,7 @@
     </block>
   </view>
   <view class="usermotto">
+    <button bindtap="setstate">BUTTON</button>
     <text class="user-motto" bindtap="toindex">{{motto}}</text>
   </view>
 </view>

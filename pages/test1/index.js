@@ -17,6 +17,10 @@ aHu({
       url: '../logs/logs'
     })
   },
+  setstate () {
+    aHu.emit('UPDATE_NAME', '格兰芬多')
+    aHu.emit('UPDATE_NICKNAME', '波特')
+  },
   toindex: function () {
     wx.navigateTo({
       url: '/pages/test/index',

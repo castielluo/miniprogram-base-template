@@ -8,6 +8,8 @@
     </block>
   </view>
   <view class="usermotto">
+    <button bindtap="showdata">{{storeView.userInfo.name}} · {{storeView.userInfo.nickname}}</button>
+    <h2 bindtap="tonav">tonavi</h2>
     <text class="user-motto" bindtap="chageit">{{motto}}</text>
   </view>
 </view>

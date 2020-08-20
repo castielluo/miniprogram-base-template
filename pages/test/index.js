@@ -17,19 +17,22 @@ aHu({
       url: '../logs/logs'
     })
   },
+  showdata () {
+    console.log(this.data)
+  },
+  tonav () {
+    wx.navigateTo({
+      url: '/pages/test1/index',
+    })
+  },
   chageit () {
     aHu.emit('UPDATE_NAME', 'fd')
+    
     console.log(this.store)
   },
+
   onLoad: function () {
 
-    setTimeout(() => {
-      aHu.emit('UPDATE_NAME', {
-        agugu: '123',
-        test: true
-      })
-      console.log(this.store)
-    }, 500);
 
     
 

@@ -3,7 +3,10 @@ import store from './store'
 
 const initMutation = () => {
   aHu.on('UPDATE_NAME', (payload) => {
-    store.storeModel.userInfo.name = payload
+    store.storeView.userInfo.name = payload
+  }),
+  aHu.on('UPDATE_NICKNAME', (payload) => {
+    store.storeView.userInfo.nickname = payload
   })
 }
 export default initMutation

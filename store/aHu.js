@@ -15,6 +15,7 @@ const _init = (options) => {
   let user_onLoad = options.onLoad
   // reset option onload
   options.onLoad = function(e) {
+    // 同一个page的this也会不同
     let vm = this
     // 先判断是否已被响应式处理
     if(!_isObr(store)) {
@@ -31,6 +32,8 @@ const _init = (options) => {
       options.data.storeView = Object.assign({}, store._noObView)
       options.data.storeModel = Object.assign({}, store._noObModel)
     }
+    // 用来记录待更改state
+    options.data._remainChangeView = Object.create(null)
     vm.store = store
     // onload时将实例插入队列
     store.routeToVm[vm.route] || (store.routeToVm[vm.route] = [])
@@ -40,6 +43,18 @@ const _init = (options) => {
     vm.setData(options.data)
     // 调用传入的onload
     user_onLoad && user_onLoad.call(this, e)
+  }
+  let user_onShow = options.onShow
+  options.onShow = function(e) {
+    // 将未修改的数据修改
+    let vm = this
+    // console.log(vm.data._remainChangeView, Object.keys(vm.data._remainChangeView))
+    if (Object.keys(vm.data._remainChangeView).length) {
+      let remainChangeView = JSON.parse(JSON.stringify(vm.data._remainChangeView))
+      vm.setData(remainChangeView)
+      vm.data._remainChangeView = {}
+    }
+    user_onShow && user_onShowcall(this, e)
   }
   // 调用Page
   Page(options)
@@ -106,21 +121,30 @@ const _defineReactive = (data, key, path, val) => {
       })
       type ? noObView[key] = JSON.parse(JSON.stringify(value)) : noObModel[key] = JSON.parse(JSON.stringify(value))
 
-      // 重新设置的对象需要响应式处理 是数组则重设原型方法 *** 需测试
+      // 重新设置的对象需要响应式处理 是数组则重设原型方法
       _walkChild(val, path)
 
+      let pages = getCurrentPages()
+      let currentVm = pages[pages.length-1]
+      console.log(currentVm)
       Object.keys(store.routeToVm).forEach(item => {
         // 除了当前路由 其他页面的setdata分别插入他们的onshow里执行 防止性能开销过大
         // ***
-        // *** 重复的页面不同的vm单实例设置是否可以影响同页面不同实例
+        // 重复的页面不同的vm单实例设置是可以影响同页面不同实例的data 但不会渲染到其他页面视图上
+        // 所以要遍历同路由页面的不同实例
+        let dataSign = `${path}.${key}`
         store.routeToVm[item].forEach(vm => {
-          // 更深层的路径要walk里找到
-          let dataSign = `${path}.${key}`
           if (type) {
-            vm.setData({
-              [dataSign]: JSON.parse(JSON.stringify(value))
-            })
+            if (vm === currentVm) {
+              // 只有当前实例改变 奇怪的是会改变当前实例的渲染和其他实例的data 但不改变其他实例的渲染
+              vm.setData({
+                [dataSign]: JSON.parse(JSON.stringify(value))
+              })
+            } else {
+              vm.data._remainChangeView[dataSign] = JSON.parse(JSON.stringify(value))
+            }
           } else {
+            debugger
             let modelPath = vm.data
             path.split('.').forEach(item => {
                 modelPath = modelPath[item]
@@ -154,6 +178,7 @@ const _on = (EVENT, fn) => {
 
 // 触发事件
 const _emit = (EVENT, payload) => {
+  console.log(aHu.sub[EVENT])
   if(aHu.sub[EVENT]) {
     aHu.sub[EVENT].forEach(fn => {
       fn(payload)
