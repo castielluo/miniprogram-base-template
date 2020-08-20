@@ -67,6 +67,17 @@ const _walk = (data, path) => {
   })
 }
 
+// 判断子节点
+const _walkChild = (data, path) => {
+  if (Object.prototype.toString.call(data) === '[object Array]') {
+    // 子节点被设置成了数组 重写原型
+  } else if(typeof data === 'object') {
+    // 是对象 递归设置响应式
+    _walk(data, path)
+  }
+}
+
+
 // 设置响应式 最后一个val防止死循环栈溢出
 const _defineReactive = (data, key, path, val) => {
   Object.defineProperty(data, key, {
@@ -75,6 +86,8 @@ const _defineReactive = (data, key, path, val) => {
     },
     set: function (value) {
       // 更改并遍历store.routeToVm
+      // console.log(val, value, JSON.stringify(val) === JSON.stringify(value))
+      let oldValue = JSON.parse(JSON.stringify(val))
       if (JSON.stringify(val) === JSON.stringify(value)) return
       // 设置store.storeView或store.storeModel
       val = value
@@ -93,10 +106,8 @@ const _defineReactive = (data, key, path, val) => {
       })
       type ? noObView[key] = JSON.parse(JSON.stringify(value)) : noObModel[key] = JSON.parse(JSON.stringify(value))
 
-      // 重新设置的对象需要响应式处理
-      if (typeof value === 'object' && Object.prototype.toString.call(value) !== '[object Array]') {
-        _walk(val)
-      }
+      // 重新设置的对象需要响应式处理 是数组则重设原型方法 *** 需测试
+      _walkChild(val, path)
 
       Object.keys(store.routeToVm).forEach(item => {
         // 除了当前路由 其他页面的setdata分别插入他们的onshow里执行 防止性能开销过大
@@ -118,7 +129,7 @@ const _defineReactive = (data, key, path, val) => {
           }
         })
       })
-      _log(`${path}.${key}`, val, value)
+      _log(`${path}.${key}`, oldValue, value)
       // *** 自定义watcher通知computed属性
     }
   })
@@ -144,15 +155,15 @@ const _on = (EVENT, fn) => {
 // 触发事件
 const _emit = (EVENT, payload) => {
   if(aHu.sub[EVENT]) {
-    while (aHu.sub[EVENT].length) {
-      aHu.sub[EVENT].shift().call(store, payload)
-    }
+    aHu.sub[EVENT].forEach(fn => {
+      fn(payload)
+    })
   }
 }
 
 // 非pro环境打印日志
 const _log = (path, oldValue, value) => {
-  console.log(`aHu日志：修改属性${path}，由${oldValue}改为${value}`)
+  console.log(`aHu日志：修改属性${path}，由${JSON.stringify(oldValue)}改为${JSON.stringify(value)}`)
 }
 
 // 挂载静态方法

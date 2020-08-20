@@ -18,20 +18,20 @@ aHu({
     })
   },
   chageit () {
-    aHu.emit('UPDATE_NAME', '真正设置成功')
+    aHu.emit('UPDATE_NAME', 'fd')
     console.log(this.store)
   },
   onLoad: function () {
 
     setTimeout(() => {
-      this.store.storeModel.userInfo.name = 'df'
+      aHu.emit('UPDATE_NAME', {
+        agugu: '123',
+        test: true
+      })
+      console.log(this.store)
     }, 500);
 
-    setTimeout(() => {
-      wx.navigateTo({
-        url: '/pages/test1/index',
-      })
-    }, 5000);
+    
 
     api.user.userInfo({
       data: {
