@@ -3,8 +3,6 @@ import store from './store'
 
 const aHu = (options) => {
   _init(options)
-  handError()
-  initPlugin()
 }
 
 const _init = (options) => {
@@ -50,7 +48,7 @@ const _init = (options) => {
     let vm = this
     // console.log(vm.data._remainChangeView, Object.keys(vm.data._remainChangeView))
     if (Object.keys(vm.data._remainChangeView).length) {
-      console.log(vm.data._remainChangeView)
+      //  console.log(vm.data._remainChangeView)
       let remainChangeView = JSON.parse(JSON.stringify(vm.data._remainChangeView))
       vm.setData(remainChangeView)
       vm.data._remainChangeView = Object.create(null)
@@ -78,7 +76,7 @@ const _walk = (data, path) => {
     if (Object.prototype.toString.call(data[item]) === '[object Array]') {
       // 是数组 重写原型方法
       _reWritePrototypeFn(data[item], data, item)
-      console.log(data[item])
+      // console.log(data[item])
     } else if (typeof data[item] === 'object') {
       _walk(data[item], path + '.' + item)
     }
@@ -91,7 +89,7 @@ const _walkChild = (data, path, parent, key) => {
   if (Object.prototype.toString.call(data) === '[object Array]') {
     // 子节点被设置成了数组 重写原型
     _reWritePrototypeFn(data, parent, key)
-    console.log(data, parent, key)
+    // console.log(data, parent, key)
   } else if(typeof data === 'object') {
     // 是对象 递归设置响应式
     _walk(data, path)
@@ -100,7 +98,7 @@ const _walkChild = (data, path, parent, key) => {
 
 // 重写数组原型方法
 const _reWritePrototypeFn = (array, data, key) => {
-  console.log(array, data)
+  // console.log(array, data)
   let arrProto = array.__proto__
   let reWriteMethods = [
     'push',
@@ -115,7 +113,7 @@ const _reWritePrototypeFn = (array, data, key) => {
     array.__proto__.__proto__ = arrProto
     reWriteMethods.forEach(item => {
       array.__proto__[item] = function (...args) {
-        console.log(args)
+        // console.log(args)
         // 先调用原型方法
         let newArr = array.slice()
         arrProto[item].apply(newArr, args)
@@ -135,11 +133,9 @@ const _defineReactive = (data, key, path, val) => {
     },
     set: function (value) {
       let pages = getCurrentPages()
-      // debugger
-      console.log(pages)
-      console.log(store.routeToVm)
+      // console.log(pages)
+      // console.log(store.routeToVm)
       let currentVm = pages[pages.length-1]
-      // console.log(currentVm)
       // 更改并遍历store.routeToVm
       // console.log(val, value, JSON.stringify(val) === JSON.stringify(value))
       let oldValue = JSON.parse(JSON.stringify(val))
@@ -165,7 +161,6 @@ const _defineReactive = (data, key, path, val) => {
       _walkChild(val, path, data, key)
 
       Object.keys(store.routeToVm).forEach((item, index) => {
-        // debugger
         // 除了当前路由 其他页面的setdata分别插入他们的onshow里执行 防止性能开销过大
         // 重复的页面不同的vm单实例设置是可以影响同页面不同实例的data 但不会渲染到其他页面视图上
         // 所以要遍历同路由页面的不同实例
@@ -193,9 +188,9 @@ const _defineReactive = (data, key, path, val) => {
           } else {
             // 在store.routeToVm中删除其无效vm
             // debugger
-            console.log(vm, pages)
+            // console.log(vm, pages)
             store.routeToVm[item].splice(rIndex, 1)
-            console.log(item, store.routeToVm[item])
+            // console.log(item, store.routeToVm[item])
           }
         })
       })
