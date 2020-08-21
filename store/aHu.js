@@ -74,21 +74,24 @@ const observer = (data, type) => {
 // 递归遍历
 const _walk = (data, path) => {
   Object.keys(data).forEach(item => {
+    _defineReactive(data, item, path, data[item])
     if (Object.prototype.toString.call(data[item]) === '[object Array]') {
       // 是数组 重写原型方法
-      _reWritePrototypeFn(data[item])
+      _reWritePrototypeFn(data[item], data, item)
+      console.log(data[item])
     } else if (typeof data[item] === 'object') {
       _walk(data[item], path + '.' + item)
     }
-    _defineReactive(data, item, path, data[item])
+    
   })
 }
 
 // 判断子节点
-const _walkChild = (data, path) => {
+const _walkChild = (data, path, parent, key) => {
   if (Object.prototype.toString.call(data) === '[object Array]') {
     // 子节点被设置成了数组 重写原型
-    _reWritePrototypeFn(data)
+    _reWritePrototypeFn(data, parent, key)
+    console.log(data, parent, key)
   } else if(typeof data === 'object') {
     // 是对象 递归设置响应式
     _walk(data, path)
@@ -96,8 +99,31 @@ const _walkChild = (data, path) => {
 }
 
 // 重写数组原型方法
-const _reWritePrototypeFn = (array) => {
-  // array.prototype.push = function (item) {}
+const _reWritePrototypeFn = (array, data, key) => {
+  console.log(array, data)
+  let arrProto = array.__proto__
+  let reWriteMethods = [
+    'push',
+    'splice',
+    'reverse',
+    'pop',
+    'shift',
+    'sort'
+  ]
+  if (arrProto) {
+    array.__proto__ = {}
+    array.__proto__.__proto__ = arrProto
+    reWriteMethods.forEach(item => {
+      array.__proto__[item] = function (...args) {
+        console.log(args)
+        // 先调用原型方法
+        let newArr = array.slice()
+        arrProto[item].apply(newArr, args)
+        // 触发属性set
+        data[key] = newArr
+      }
+    })
+  }
 }
 
 
@@ -136,7 +162,7 @@ const _defineReactive = (data, key, path, val) => {
       type ? noObView[key] = JSON.parse(JSON.stringify(value)) : noObModel[key] = JSON.parse(JSON.stringify(value))
 
       // 重新设置的对象需要响应式处理 是数组则重设原型方法
-      _walkChild(val, path)
+      _walkChild(val, path, data, key)
 
       Object.keys(store.routeToVm).forEach((item, index) => {
         // debugger

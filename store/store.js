@@ -6,7 +6,7 @@ export default {
       name: '',
       nickname: ''
     },
-    nameList: [1,2,3]
+    nameList: ''
   },
   // 全局变量只需要做逻辑判断不渲染的放这里
   storeModel: {
