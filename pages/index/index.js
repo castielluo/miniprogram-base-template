@@ -2,11 +2,11 @@
 //获取应用实例
 const app = getApp()
 import api from '../../apis/index'
+import aHu from '../../store/aHu'
 
-Page({
+aHu({
   data: {
     motto: 'Hello World',
-    userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
@@ -17,18 +17,8 @@ Page({
     })
   },
   onLoad: function () {
-    console.log(this)
-    api.user.userInfo({
-      data: {
-        name: 'lzx'
-      },
-      success: (res) => {
-        console.log(1111111111)
-      }
-    })
-    if (app.globalData.userInfo) {
+    if (this.data.storeView.userInfo.length) {
       this.setData({
-        userInfo: app.globalData.userInfo,
         hasUserInfo: true
       })
     } else if (this.data.canIUse){
@@ -36,29 +26,27 @@ Page({
       // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = res => {
         this.setData({
-          userInfo: res.userInfo,
           hasUserInfo: true
         })
+        aHu.emit('UPDATE_USERINFO', res.userInfo)
       }
     } else {
       // 在没有 open-type=getUserInfo 版本的兼容处理
       wx.getUserInfo({
         success: res => {
-          app.globalData.userInfo = res.userInfo
           this.setData({
-            userInfo: res.userInfo,
             hasUserInfo: true
           })
+          aHu.emit('UPDATE_USERINFO', res.userInfo)
         }
       })
     }
   },
   getUserInfo: function(e) {
     console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
     this.setData({
-      userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+    aHu.emit('UPDATE_USERINFO', e.detail.userInfo)
   }
 })
