@@ -9,6 +9,7 @@
   </view>
   <view class="usermotto">
     <button bindtap="setstate">BUTTON</button>
+    <button bindtap="setstate1">BUTTON1</button>
     <text class="user-motto" bindtap="toindex">{{motto}}</text>
   </view>
 </view>

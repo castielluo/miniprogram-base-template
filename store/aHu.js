@@ -50,9 +50,10 @@ const _init = (options) => {
     let vm = this
     // console.log(vm.data._remainChangeView, Object.keys(vm.data._remainChangeView))
     if (Object.keys(vm.data._remainChangeView).length) {
+      console.log(vm.data._remainChangeView)
       let remainChangeView = JSON.parse(JSON.stringify(vm.data._remainChangeView))
       vm.setData(remainChangeView)
-      vm.data._remainChangeView = {}
+      vm.data._remainChangeView = Object.create(null)
     }
     user_onShow && user_onShowcall(this, e)
   }
@@ -75,6 +76,7 @@ const _walk = (data, path) => {
   Object.keys(data).forEach(item => {
     if (Object.prototype.toString.call(data[item]) === '[object Array]') {
       // 是数组 重写原型方法
+      _reWritePrototypeFn(data[item])
     } else if (typeof data[item] === 'object') {
       _walk(data[item], path + '.' + item)
     }
@@ -86,10 +88,16 @@ const _walk = (data, path) => {
 const _walkChild = (data, path) => {
   if (Object.prototype.toString.call(data) === '[object Array]') {
     // 子节点被设置成了数组 重写原型
+    _reWritePrototypeFn(data)
   } else if(typeof data === 'object') {
     // 是对象 递归设置响应式
     _walk(data, path)
   }
+}
+
+// 重写数组原型方法
+const _reWritePrototypeFn = (array) => {
+  // array.prototype.push = function (item) {}
 }
 
 
@@ -100,6 +108,12 @@ const _defineReactive = (data, key, path, val) => {
       return val
     },
     set: function (value) {
+      let pages = getCurrentPages()
+      // debugger
+      console.log(pages)
+      console.log(store.routeToVm)
+      let currentVm = pages[pages.length-1]
+      // console.log(currentVm)
       // 更改并遍历store.routeToVm
       // console.log(val, value, JSON.stringify(val) === JSON.stringify(value))
       let oldValue = JSON.parse(JSON.stringify(val))
@@ -124,32 +138,38 @@ const _defineReactive = (data, key, path, val) => {
       // 重新设置的对象需要响应式处理 是数组则重设原型方法
       _walkChild(val, path)
 
-      let pages = getCurrentPages()
-      let currentVm = pages[pages.length-1]
-      console.log(currentVm)
-      Object.keys(store.routeToVm).forEach(item => {
+      Object.keys(store.routeToVm).forEach((item, index) => {
+        // debugger
         // 除了当前路由 其他页面的setdata分别插入他们的onshow里执行 防止性能开销过大
-        // ***
         // 重复的页面不同的vm单实例设置是可以影响同页面不同实例的data 但不会渲染到其他页面视图上
         // 所以要遍历同路由页面的不同实例
         let dataSign = `${path}.${key}`
-        store.routeToVm[item].forEach(vm => {
-          if (type) {
-            if (vm === currentVm) {
-              // 只有当前实例改变 奇怪的是会改变当前实例的渲染和其他实例的data 但不改变其他实例的渲染
-              vm.setData({
-                [dataSign]: JSON.parse(JSON.stringify(value))
-              })
+        store.routeToVm[item].forEach((vm, rIndex) => {
+          if (pages.some(page => page === vm)) {
+            // 在路由列表中才改变
+            if (type) {
+              if (vm === currentVm) {
+                // 只有当前实例改变 奇怪的是会改变当前实例的渲染和其他实例的data 但不改变其他实例的渲染
+                vm.setData({
+                  [dataSign]: JSON.parse(JSON.stringify(value))
+                })
+              } else {
+                vm.data._remainChangeView[dataSign] = JSON.parse(JSON.stringify(value))
+              }
             } else {
-              vm.data._remainChangeView[dataSign] = JSON.parse(JSON.stringify(value))
+              // 逻辑层数据因为不涉及渲染 直接改动所有vm的值
+              let modelPath = vm.data
+              path.split('.').forEach(item => {
+                  modelPath = modelPath[item]
+              })
+              modelPath[key] = JSON.parse(JSON.stringify(value))
             }
           } else {
-            debugger
-            let modelPath = vm.data
-            path.split('.').forEach(item => {
-                modelPath = modelPath[item]
-            })
-            modelPath[key] = JSON.parse(JSON.stringify(value))
+            // 在store.routeToVm中删除其无效vm
+            // debugger
+            console.log(vm, pages)
+            store.routeToVm[item].splice(rIndex, 1)
+            console.log(item, store.routeToVm[item])
           }
         })
       })
@@ -178,7 +198,7 @@ const _on = (EVENT, fn) => {
 
 // 触发事件
 const _emit = (EVENT, payload) => {
-  console.log(aHu.sub[EVENT])
+  // console.log(aHu.sub[EVENT])
   if(aHu.sub[EVENT]) {
     aHu.sub[EVENT].forEach(fn => {
       fn(payload)

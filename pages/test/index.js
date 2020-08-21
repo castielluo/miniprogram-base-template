@@ -36,13 +36,13 @@ aHu({
 
     
 
-    api.user.userInfo({
+    /* api.user.userInfo({
       data: {
         name: 'lzx'
       },
       success: (res) => {
       }
-    })
+    }) */
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,

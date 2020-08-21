@@ -21,6 +21,10 @@ aHu({
     aHu.emit('UPDATE_NAME', '格兰芬多')
     aHu.emit('UPDATE_NICKNAME', '波特')
   },
+  setstate1 () {
+    aHu.emit('UPDATE_NAME', '斯莱特林')
+    aHu.emit('UPDATE_NICKNAME', '马尔福')
+  },
   toindex: function () {
     wx.navigateTo({
       url: '/pages/test/index',
