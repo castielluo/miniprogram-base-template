@@ -22,5 +22,5 @@
 * 更多的工具类
 
 ## License
-[MIT](./LICENSE.TXT)
+[MIT](https://github.com/castielluo/miniprogram-base-template/blob/master/LICENSE.txt)
 
