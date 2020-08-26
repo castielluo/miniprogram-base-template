@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var _default={storeView:{openid:"",userInfo:{}},storeModel:{openid:""}};exports.default=_default;

@@ -15,8 +15,8 @@
 * config文件夹统一管理环境变量及公共配置项
 
 ### Gulp构建
-* gulp分支引入了gulp通用构建任务，可以使用es6更多新特性和scss编码
-
+* 引入gulp通用构建任务，可以使用es6更多新特性和scss编码
+* 使用方法：在根目录下执行npm i，然后使用npx gulp pro执行构建任务，即可查看dist文件夹下的文件。建议将dist文件夹设置为微信开发者工具的项目根目录，开发的时候可以使用npx gulp watch进行即时构建。
 
 ## Todo
 * 视图管道filter
