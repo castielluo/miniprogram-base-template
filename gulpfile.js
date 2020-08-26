@@ -22,6 +22,7 @@ gulp.task('watch', () => {
   gulp.watch(['./**/*.wxml', '!./node_modules/**', '!./dist/**'], gulp.series('templates'));
   gulp.watch(['./**/*.wxss', '!./node_modules/**', '!./dist/**'], gulp.series('wxss'));
   gulp.watch(['./**/*.sass', '!./node_modules/**', '!./dist/**'], gulp.series('wxss'));
+  gulp.watch(['./**/*.scss', '!./node_modules/**', '!./dist/**'], gulp.series('wxss'));
   gulp.watch(['./**/*.js', '!./node_modules/**', '!./dist/**'], gulp.series('scripts'));
 });
 
@@ -59,11 +60,11 @@ gulp.task('templatesPro', () => {
 });
 
 gulp.task('wxss', () => {
-  return gulp.src(['./**/*.{wxss,sass}', '!./styles/**', '!./node_modules/**']).pipe(sass()).pipe(autoprefixer(['iOS >= 8','Android >= 4.1'])).pipe(rename((path) => path.extname = '.wxss')).pipe(gulp.dest('./dist'))
+  return gulp.src(['./**/*.{wxss,scss,sass}', '!./styles/**', '!./node_modules/**']).pipe(sass()).pipe(autoprefixer(['iOS >= 8','Android >= 4.1'])).pipe(rename((path) => path.extname = '.wxss')).pipe(gulp.dest('./dist'))
 });
 
 gulp.task('wxssPro', () => {
-  return gulp.src(['./**/*.{wxss,sass}', '!./styles/**', '!./node_modules/**']).pipe(sass()).pipe(autoprefixer(['iOS >= 8','Android >= 4.1'])).pipe(minifycss()).pipe(rename((path) => path.extname = '.wxss')).pipe(gulp.dest('./dist'))
+  return gulp.src(['./**/*.{wxss,scss,sass}', '!./styles/**', '!./node_modules/**']).pipe(sass()).pipe(autoprefixer(['iOS >= 8','Android >= 4.1'])).pipe(minifycss()).pipe(rename((path) => path.extname = '.wxss')).pipe(gulp.dest('./dist'))
 });
 
 gulp.task('scripts', () => {
