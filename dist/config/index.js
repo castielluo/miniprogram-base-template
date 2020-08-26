@@ -1,1 +1,0 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var _default={env:{current:"test"},apiBaseUrl:{dev:"",test:"https://clienttest.ruqimobility.com:8081",pro:""},assetsBaseUrl:{dev:"",test:"",pro:""},version:"1.0"};exports.default=_default;
