@@ -20,7 +20,7 @@ const initMutation = () => {
 export default initMutation
 
 // 页面js
-Hu.emit('UPDATE_USERINFO', res.userInfo)
+aHu.emit('UPDATE_USERINFO', res.userInfo)
 ```
 
 ### 统一管理的接口请求
