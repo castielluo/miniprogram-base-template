@@ -7,6 +7,7 @@
 * 进行渲染层storeView和逻辑层storeModel数据分离并单独响应式处理。降低不必要的渲染性能开销；
 * 在每个页面实例维护变更store并整合属性，在实例生命周期onShow混入处理渲染数据的函数，极大降低即时性能开销；
 * 丰富的store文件注释，友好的二次开发体验^_^
+* 更小的状态管理器体积
 ``` 
 // store.js
 // 可仿照UPDATE_USERINFO编写业务mutation
@@ -25,6 +26,7 @@ aHu.emit('UPDATE_USERINFO', res.userInfo)
 ```
 ### Gulp构建
 * 引入gulp通用构建任务，可以使用es6更多新特性和scss编码
+* 压缩文件，更小的小程序包体积
 * 使用方法：在根目录下执行npm i，然后使用npx gulp pro执行构建任务，即可查看dist文件夹下的文件。建议将dist文件夹设置为微信开发者工具的项目根目录，开发的时候可以使用npx gulp watch进行即时构建。
 ```
 npx gulp pro
