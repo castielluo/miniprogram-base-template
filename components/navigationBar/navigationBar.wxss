@@ -1,0 +1,43 @@
+.nav-wrap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 999999;
+  text-align: center;
+  font-weight: 600;
+  font-size: 32rpx;
+}
+.nav__btns {
+  position: absolute;
+  display: flex;
+  left: 20rpx;
+  top: 0;
+  height: 100%;
+  align-items: center;
+}
+.nav__back {
+  background-color: rgba(255,255,255,0.6);
+  border-radius:32rpx;
+  position: relative;
+  height: 64rpx;
+  padding: 0 8rpx;
+}
+.nav__back image {
+  width: 44rpx;
+  height: 44rpx;
+  padding: 10rpx 20rpx;
+}
+.nav__back::after {
+  box-sizing: border-box;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  transform: scale(0.5);
+  transform-origin: 0 0;
+  border: 1px solid rgba(151,151,151,0.2);
+  border-radius: 64rpx;
+  z-index: -1;
+}

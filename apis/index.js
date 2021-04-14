@@ -1,5 +1,7 @@
-import user from './user.js'
+import user from "./user.js";
+import location from "./location.js";
 
 export default {
-  user,
-}
+  ...user,
+  ...location,
+};

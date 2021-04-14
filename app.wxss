@@ -3,8 +3,134 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 200rpx 0;
+  justify-content: flex-start;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 通用按钮 */
+.submit-btn {
+  width: 686rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  background-color: #342E2C;
+  border-radius: 45rpx;
+  color: white;
+}
+/* 禁用 */
+.submit-btn--disabled {
+  background-color: #B7B9BE;
+}
+/* 提示 */
+.submit-btn--light {
+  background-color: white;
+  color: black;
+  border: 2rpx solid #B7B9BE;
   box-sizing: border-box;
 } 
+
+.flex {
+  display: flex;
+  align-items: flex-start;
+}
+.flex-auto {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+/* 定义排列方向为竖直 */
+.column {
+  display: flex;
+  flex-direction: column;
+}
+/* 上下左右居中 */
+.center {
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+}
+/* 左右居中 */
+.row-center {
+  display: flex;
+  justify-content: center;
+}
+/* 垂直居中 */
+.column-center {
+  display: flex;
+  align-items: center;
+}
+/* 两端对齐-不换行 */
+.row-between {
+  display: flex;
+  justify-content: space-between;
+}
+/* 两端对齐-自动换行 */
+.row-between-auto {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+/* 右对齐 */
+.row-right {
+  display: flex;
+  justify-content: flex-end;
+}
+/* 底部对齐 */
+.row-bottom {
+  display: flex;
+  align-items: flex-end;
+}
+/* 不贴边对齐 */
+.row-around {
+  display: flex;
+  justify-content: space-around;
+}
+/* 不贴边对齐自动换行 */
+.row-around-auto {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+/* 子元素高度自适应父元素 */
+.column-full {
+  display: flex;
+  align-items: stretch;
+}
+/* 子元素用于不被挤压，大小固定 */
+.col-fixed {
+  flex-shrink: 0;
+}
+/* 元素宽度自适应 */
+.col-auto {
+  flex: 1 1 auto;
+}
+/* 2，3，4等分 */
+.col-2 {
+  flex: 0 1 50%;
+}
+.col-3 {
+  flex: 0 1 33.33333333333%;
+}
+.col-4 {
+  flex: 0 1 25%;
+}
+/* 超出文本省略 */
+.text-overflow,
+.text-overflow-2,
+.text-overflow-3 {
+  display: -webkit-box;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+/* 两行超出省略 */
+.text-overflow-2 {
+  -webkit-line-clamp: 2;
+}
+/* 三行超出省略 */
+.text-overflow-3 {
+  -webkit-line-clamp: 3;
+}

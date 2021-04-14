@@ -1,0 +1,163 @@
+// filter.wxs
+var dateFormat = function (date) {
+  var date = getDate(parseInt(date) * 1000)
+  return date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate()
+}
+var dateFormatSpot = function (date) {
+  var date = getDate(parseInt(date) * 1000)
+  return date.getFullYear() + '.' + (parseInt(date.getMonth()) + 1) + '.' + date.getDate()
+}
+var dateFormatSec = function (date) {
+  var date = getDate(parseInt(date))
+  return date.getFullYear() + '.' + (parseInt(date.getMonth()) + 1) + '.' + date.getDate()
+}
+var isNumber = function (data) {
+  return data.indexOf('折') == -1
+}
+var isParseFloat = function (value) {
+  return parseFloat(value)
+}
+
+var dateFormatDetail = function (date) {
+  var date = getDate(parseInt(date) * 1000)
+  return leftPad0(date.getFullYear()) + '.' + leftPad0(parseInt(date.getMonth()) + 1) + '.' + leftPad0(date.getDate()) + ' ' + leftPad0(date.getHours()) + ':' + leftPad0(date.getMinutes()) + ':' + leftPad0(date.getSeconds())
+}
+
+var cityFormat = function (city) {
+  return city.join('、')
+}
+/**
+ * value:传入的值
+ * digit:保留位数 */
+var toFix = function (value, digit) {
+  return Number(value).toFixed(digit)
+}
+
+var getNumFloor = function (value) {
+  return parseInt(value)
+}
+
+var getNumFix = function (value) {
+  return value.toString().slice(1)
+}
+
+var citySubString = function (value) {
+  return value.substring(0,2)
+}
+
+var leftPad0 = function (value) {
+  if (value < 10) {
+    return '0' + value
+  }
+  return value
+}
+// 0000年00月 00:00
+var formatTimeToSty1 = function (value) {
+  var time = getDate(parseInt(value))
+  var mo = time.getMonth() + 1
+  var d = time.getDate()
+  var h = time.getHours()
+  var m = time.getMinutes()
+  return leftPad0(mo) + '月' + leftPad0(d) + '日' + leftPad0(h) + ':' + leftPad0(m)
+}
+
+// 转换成小时和秒
+var formatTimeToSty2 = function (value) {
+  value = parseInt(value)
+  if (isNaN(value) || value < 0) {
+    value = 0
+  }
+  value = Math.floor(value / 1000)
+  var m = Math.floor(value / 60)
+  var s = value % 60
+  return leftPad0(m) + ':' + leftPad0(s)
+}
+
+//格式示例：2018-12-20 12:30
+var formatTimeToSty3 = function (value) {
+  var time = getDate(parseInt(value))
+  var year = time.getFullYear()
+  var mo = time.getMonth() + 1
+  var d = time.getDate()
+  var h = time.getHours()
+  var m = time.getMinutes()
+  return time.getFullYear() + '-' + leftPad0(mo) + '-' + leftPad0(d) + ' ' + leftPad0(h) + ':' + leftPad0(m)
+}
+
+var formatMetreToSty1 = function (value) {
+  var value = parseInt(value) / 1000
+  return value.toFixed(1)
+}
+
+/**
+ * 数字补0
+ * @param {*} num
+ */
+var addZero = function(num) {
+  if (typeof num === 'number') {
+    return num < 10 ? '0' + num : num
+  }
+  console.log('addZero param\'s type is not Number')
+  return num
+}
+/**
+ * 格式化时间戳
+ * @param {*} timeStamp
+ * @param formatStr
+ * @param unit 单位 1毫秒 1000秒
+ */
+var formatTime = function(timeStamp, formatStr = 'yyyy-MM-dd HH:mm:ss', unit = 1000) {
+  if (timeStamp) {
+    timeStamp = parseInt(timeStamp * unit)
+    var date = getDate(timeStamp)
+    var Y = date.getFullYear()
+    var M = date.getMonth() + 1
+    var d = date.getDate()
+    var h = date.getHours()
+    var m = date.getMinutes()
+    var s = date.getSeconds()
+    return formatStr
+      .replace('yyyy', Y)
+      .replace('MM', addZero(M))
+      .replace('dd', addZero(d))
+      .replace('HH', addZero(h))
+      .replace('mm', addZero(m))
+      .replace('ss', addZero(s))
+  }
+  return timeStamp
+}
+
+/* 人脸识别等隐藏名字中几位 */
+var formatName = function(name) {
+  var nameArr =name.split('')
+  var length = nameArr.length - 1
+  var tempArr = ''
+  for(i=0;i<length;i++) {
+    tempArr += '*'
+  }
+  nameArr.splice(1, length, tempArr)
+  return nameArr.join('')
+}
+
+/*
+ * 导出
+ */
+module.exports = {
+  dateFormat: dateFormat,
+  cityFormat: cityFormat,
+  dateFormatSpot: dateFormatSpot,
+  dateFormatSec: dateFormatSec,
+  dateFormatDetail: dateFormatDetail,
+  isNumber: isNumber,
+  isParseFloat: isParseFloat,
+  toFix: toFix,
+  getNumFloor: getNumFloor,
+  getNumFix: getNumFix,
+  formatTimeToSty1: formatTimeToSty1,
+  formatTimeToSty2: formatTimeToSty2,
+  formatTimeToSty3: formatTimeToSty3,
+  formatMetreToSty1: formatMetreToSty1,
+  formatTime: formatTime,
+  citySubString: citySubString,
+  formatName: formatName
+}

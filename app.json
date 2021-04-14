@@ -1,13 +1,20 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/webview/webview",
+    "pages/login/login"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "如祺用户安全中心需要获取你的位置"
+    }
+  },
+  "usingComponents": {},
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
-    "navigationBarTextStyle":"black"
+    "navigationBarTitleText": "如祺推客",
+    "navigationBarTextStyle": "black"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

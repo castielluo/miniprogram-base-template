@@ -1,78 +1,168 @@
 {
-	"description": "项目配置文件",
-	"packOptions": {
-		"ignore": []
-	},
-	"setting": {
-		"urlCheck": false,
-		"es6": true,
-		"enhance": false,
-		"postcss": true,
-		"preloadBackgroundData": false,
-		"minified": true,
-		"newFeature": false,
-		"coverView": true,
-		"nodeModules": true,
-		"autoAudits": false,
-		"showShadowRootInWxmlPanel": true,
-		"scopeDataCheck": false,
-		"uglifyFileName": false,
-		"checkInvalidKey": true,
-		"checkSiteMap": true,
-		"uploadWithSourceMap": true,
-		"compileHotReLoad": false,
-		"babelSetting": {
-			"ignore": [],
-			"disablePlugins": [],
-			"outputPath": ""
-		},
-		"useIsolateContext": true,
-		"useCompilerModule": false,
-		"userConfirmedUseCompilerModuleSwitch": false
-	},
-	"compileType": "miniprogram",
-	"libVersion": "2.12.1",
-	"appid": "wx48d84e6e5d099ff6",
-	"projectname": "travel-miniprogram-bytheway",
-	"debugOptions": {
-		"hidedInDevtools": []
-	},
-	"scripts": {},
-	"isGameTourist": false,
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"current": -1,
-			"list": []
-		},
-		"gamePlugin": {
-			"current": -1,
-			"list": []
-		},
-		"miniprogram": {
-			"current": -1,
-			"list": [
-				{
-					"id": 0,
-					"name": "test",
-					"pathName": "pages/test/index",
-					"query": "",
-					"scene": null
-				}
-			]
-		}
-	}
+  "description": "项目配置文件",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": false,
+    "coverView": true,
+    "nodeModules": false,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": false,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "bundle": false,
+    "useIsolateContext": true,
+    "useCompilerModule": false,
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "userConfirmedBundleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.11.2",
+  "appid": "wx202f391eeb1efc74",
+  "projectname": "推客",
+  "debugOptions": {
+    "hidedInDevtools": []
+  },
+  "scripts": {},
+  "isGameTourist": false,
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "id": 0,
+          "name": "拍照",
+          "pathName": "pages/public/photo/photo",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "身份信息核实",
+          "pathName": "pages/verify/infoVerify/infoVerify",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 2,
+          "name": "常见问题",
+          "pathName": "pages/main/usualProblem/usualProblem",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 3,
+          "name": "车主认证结果",
+          "pathName": "pages/main/result/result",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "人脸识别",
+          "pathName": "pages/verify/faceInden/faceInden",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "身份证上传",
+          "pathName": "pages/verify/verify",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "身份认证结果",
+          "pathName": "pages/verify/verifyResult/verifyResult",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "登录",
+          "pathName": "pages/login/login",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "车主-驾驶证上传",
+          "pathName": "pages/license/license",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "车主-注册上传",
+          "pathName": "pages/car/registerPic/registerPic",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 10,
+          "name": "顺风车邀请车主认证跳转页",
+          "pathName": "pages/activity/invite/invite",
+          "query": "userId=1682389960",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "短信验证",
+          "pathName": "pages/verify/msgVerify/msgVerify",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 12,
+          "name": "pages/car/msgCheck/msgCheck",
+          "pathName": "pages/car/msgCheck/msgCheck",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "完善车辆信息",
+          "pathName": "pages/car/registerPic/registerPic",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/license/confirmMsg/confirmMsg",
+          "pathName": "pages/license/confirmMsg/confirmMsg",
+          "scene": null
+        }
+      ]
+    }
+  }
 }

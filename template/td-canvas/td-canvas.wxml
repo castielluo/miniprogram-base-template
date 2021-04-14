@@ -1,0 +1,5 @@
+<template name="tongdun">
+  <view wx:if="{{(hideFMCanvas != undefined) && !hideFMCanvas}}">
+    <canvas canvas-id='tdcanvas' style='position: fixed; left: 0; bottom: -180px'></canvas>
+  </view>
+</template>

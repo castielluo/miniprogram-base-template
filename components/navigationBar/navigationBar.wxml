@@ -1,0 +1,9 @@
+<view class="nav-wrap" style="top:{{info.statusBarHeight}}px;height:{{info.navHeight}}px;line-height:{{info.navHeight}}px">
+  {{title}}
+  <view class="nav__btns">
+    <view class="nav__back">
+      <image wx:if="{{showBack}}" bindtap="handleBack" class="nav__image" src="../../assets/icons/icon_back.png"></image>
+      <slot></slot> <!--其它按钮-->
+    </view>
+  </view>
+</view>

@@ -1,21 +1,59 @@
 /**index.wxss**/
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+page {
+  background: #f1f1f1;
 }
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.bg{
+  position: relative;
+  width: 750rpx;
+  height: 1624rpx;
 }
-
-.userinfo-nickname {
-  color: #aaa;
+.login-btn{
+  position: absolute;
+  bottom: 100rpx;
+  width: 750rpx;
+  text-align: center;
+  color: #666;
+  font-size: 24rpx;
 }
-
-.usermotto {
-  margin-top: 200px;
+.top_bg image {
+  width: 100%;
+  height: 1119rpx;
+}
+.btn-wrapper {
+  margin-top: -80rpx;
+}
+.btn-wrapper .point {
+  width: 180rpx;
+  height: 180rpx;
+  position: absolute;
+  right: 20rpx;
+  top: -35rpx;
+  transform: rotate(-45deg);
+}
+.acceptInvite_bon {
+  width: 620rpx;
+  height:163rpx;
+  margin: 0 0 90rpx;
+}
+button,button::after {
+  border: none;
+  padding: 0;
+  line-height: 0;
+  background: none;
+}
+.rules {
+  position: fixed;
+  right: 0;
+  top: 200rpx;
+  background: #fed189;
+  padding: 8rpx 0;
+  color: #D4702B;
+  width: 43rpx;
+  height: 130rpx;
+  line-height: 30rpx;
+  border-radius: 10rpx 0rpx 0rpx 10rpx;
+  text-align: center;
+  font-size: 24rpx;
+  box-shadow: 0px 0px 8px 4px rgba(85, 105, 148, 0.08);
+  /* text-shadow: 0px 2px 4px #DD4A28; */
 }

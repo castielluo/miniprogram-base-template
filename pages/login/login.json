@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "navigation-bar": "/components/navigationBar/navigationBar"
+  },
+  "navigationStyle": "custom"
+}

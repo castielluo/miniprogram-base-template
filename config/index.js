@@ -1,16 +1,18 @@
 export default {
   env: {
-    current: 'test', /* dev test pro */
+    current: "pro" /* dev test pro */,
   },
   apiBaseUrl: {
-    dev: '',
-    test: 'https://clienttest.ruqimobility.com:8081',
-    pro: ''
+    dev: "https://dev.example.com",
+    test: "https://test.example.com",
+    uat: "https://uat.example.com",
+    pro: "https://pro.example.com",
   },
-  assetsBaseUrl: {
-    dev: '',
-    test: '',
-    pro: ''
+  appId: {
+    dev: "wx202f391eeb1efc74",
+    test: "wx202f391eeb1efc74",
+    uat: "wx202f391eeb1efc74",
+    pro: "wx202f391eeb1efc74",
   },
-  version: '1.0',
-}
+  version: "0.0.1",
+};

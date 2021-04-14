@@ -1,0 +1,185 @@
+.container {
+  position: relative;
+  float: left;
+  width: 750rpx;
+  height: 100vh;
+}
+
+.text-box {
+  position: absolute;
+  top: 180rpx;
+  left: 40rpx;
+  z-index: 10;
+}
+
+.text-box .text-title {
+  width: 100%;
+  float: left;
+  color: #303445;
+  font-size: 48rpx;
+  line-height: 74rpx;
+  font-weight: 600;
+}
+
+.text-box .text-sec-title {
+  width: 100%;
+  float: left;
+  color: #7E808A;
+  font-size: 28rpx;
+  line-height: 46rpx;
+  margin-top: 24rpx;
+}
+.rules-tag{
+  position: absolute;
+  z-index: 1;
+  width: 750rpx;
+  bottom: 210rpx;
+  left: 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7E808A;
+  font-size: 22rpx;
+
+}
+.nickName {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  bottom:50%;
+  margin-bottom:-190rpx;
+}
+.nickName image {
+  width: 168rpx;
+  height: 168rpx;
+  border-radius: 100rpx;
+  border: 6rpx solid #fff;
+  box-shadow: 0 0 16rpx 0 rgba(0, 0, 0, 0.3);
+}
+.nickName view {
+  text-align:center;
+}
+.nickName .name {
+  margin-top: 20rpx;
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #303445;
+  line-height: 67rpx;
+}
+.nickName .tips {
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #B7B9BE;
+  line-height: 32rpx;
+  padding-top: 8rpx;
+}
+.rules-tag text{
+  color: #F7B200;
+}
+.bg {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 750rpx;
+  height: 1334rpx;
+}
+
+.login-btn {
+  position: absolute;
+  z-index: 9;
+  width: 650rpx!important;
+  height: 90rpx;
+  border-radius: 45rpx;
+  text-align: center;
+  line-height: 90rpx;
+  margin: 0 50rpx!important;
+  bottom: 100rpx;
+  color: #F5F6F9;
+  font-size: 30rpx;
+  background-color: #342E2C!important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.login-btn:after {
+  border: none;
+}
+
+.login-btn image {
+  width: 44rpx;
+  height: 44rpx;
+  margin-right: 30rpx;
+}
+
+.cancel-btn {
+  position: absolute;
+  z-index: 9;
+  width: 650rpx;
+  height: 90rpx;
+  border-radius: 45rpx;
+  text-align: center;
+  line-height: 90rpx;
+  margin: 0 50rpx;
+  bottom: 100rpx;
+  color: #7E808A;
+  font-size: 30rpx;
+  border: none;
+}
+
+.cancel-btn:after {
+  border: none;
+}
+
+.g-unGetLocation {
+  text-align: center;
+  font-size: 36rpx;
+  width: 100%;
+  height: 746rpx;
+  padding-top: 80rpx;
+  background: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1001;
+  border-radius: 20rpx 20rpx 0 0;
+}
+
+.g-unGetLocation .about {
+  background: url("https://src.ruqimobility.com/images/empty_location.png") no-repeat 50% 0;
+  background-size: 392rpx;
+  min-width: 392rpx;
+  padding-top: 298rpx;
+  display: block;
+}
+
+.g-unGetLocation .ui-button {
+  margin-top: 50rpx;
+  background-color: #342E2C!important;
+  color: #fff!important;
+  width: 360rpx!important;
+  height: 90rpx;
+}
+.black-wall{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.ui-button {
+  background-color: #FFBF13;
+  text-align: center;
+  line-height: 90rpx;
+  color: #303445;
+  height: 90rpx;
+  padding: 0 70rpx;
+  border-radius: 90rpx;
+  display: inline-block;
+  position: relative;
+}
